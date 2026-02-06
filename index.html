@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+  #benign-list p.is-selected {
+    background-color: #f0f0f0;
+  }
+
+
+  #benign-list p.is-selected {
+    background-color: #f0f0f0;
+  }
+
+        /* 右侧导航栏的样式 */
+    .sidebar {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    width: 180px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    z-index: 1000; /* 增加 z-index 确保它在其他元素的上层 */
+}
+  .small-caps {
+      font-variant: small-caps;
+    }
+    .sidebar:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    .sidebar h4 {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar ul li {
+        margin-bottom: 8px;
+    }
+    .sidebar ul li a {
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 10px 12px;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-radius: 5px;
+    }
+    .sidebar ul li a:hover {
+        background-color: #ff5722;
+        color: #ffffff;
+    }
+
+    @media (max-width: 1374px) {
+        .sidebar {
+            display: none;
+        }
+    }
+
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        text-align: center;  /* Horizontally center content */
+        vertical-align: middle;  /* Vertically center content */
+        font-size: 14px;
+    }
+    th, td {
+        padding: 12px;
+        text-align: center;  /* Horizontally center content */
+        vertical-align: middle;  /* Vertically center content */
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+        text-align: center;  /* Horizontally center content */
+        vertical-align: middle;  /* Vertically center content */
+        font-weight: bold;
+    }
+    caption {
+        caption-side: top;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        font-size: 20px;
+    }
+    /*tr:nth-child(even) {*/
+    /*    background-color: #f9f9f9;*/
+    /*    text-align: center;  !* Horizontally center content *!*/
+    /*    vertical-align: middle;  !* Vertically center content *!*/
+    /*}*/
+    .highlight {
+        font-weight: bold;
+        color: #ff5722;
+    }
+    .hidden {
+        display: none;
+    }
+    p {
+      font-size: 16px; 
+    }
+    ol {
+      font-size: 16px;
+    }
+</style>
+   <!-- <script src="https://kit.fontawesome.com/c221ce7c0d.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./static/js/fontawesome.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://kit.fontawesome.com/f8ddf9854a.js" crossorigin="anonymous"></script> -->
+  <meta charset="utf-8">
+  <meta name="description"
+        content="When Actions Go Off-Task: Detecting and Correcting Misaligned Actions in Computer-Use Agents">
+  <meta name="keywords" content="DeAction, MisActBench, misaligned action detection, agent safety, agent robustness, computer-use agents, CUA, Operator, Claude, LMM, LMM Evaluation, Vision Language Model, Large Language Model, Large Multimodal Model, artificial intelligence, AI, AGI, artificial general intelligence">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Misaligned Action Detection</title>
+
+  <meta name="og:title" content="Misaligned Action Detection" />
+  <meta name="og:description" content="Detecting and correcting misaligned actions in computer-use agents with MisActBench and DeAction." />
+  <meta name="og:url" content="https://osu-nlp-group.github.io/" />
+  <meta name="og:image" content="https://osu-nlp-group.github.io/static/images/examples.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://osu-nlp-group.github.io/static/images/examples.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Misaligned Action Detection" />
+
+<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/leaderboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bulma.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script> -->
+  <script type="text/javascript" src="static/js/sort-table.js" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/explorer-index.js"></script>
+  <script src="./static/js/question_card.js"></script>
+
+  <script src="./static/js/leaderboard_testmini.js"></script>
+  <!-- <script src="./data/results/output_folders.js" defer></script>
+  <script src="./data/results/model_scores.js" defer></script>
+
+  <script src="./visualizer/data/data_public.js" defer></script> -->
+  <style>
+    pre {
+        max-height: 400px; 
+        overflow-x: auto; 
+        overflow-y: auto;
+        background-color: #f0f0f0; 
+        padding: 10px;
+        border: 1px solid #ccc; 
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+
+
+
+<!-- 右侧导航栏 -->
+<div class="sidebar">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#benchmark">MisActBench</a></li>
+    <li><a href="#guardrail">DeAction</a></li>
+    <li><a href="#experiments">Experiments</a></li>
+  </ul>
+</div>
+
+
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://osu-nlp-group.github.io/AutoElicit/">
+            AutoElicit
+          </a>
+         <a class="navbar-item" href="https://osu-nlp-group.github.io/RedTeamCUA/">
+            RedTeamCUA
+          </a>
+          <a class="navbar-item" href="https://osu-nlp-group.github.io/Mind2Web-2/">
+            Mind2Web-2
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2504.01382">
+            Online-Mind2Web
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2409.11295">
+            EIA
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2404.07921">
+            AmpleGCG
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2411.06559">
+            WebDreamer
+          </a>
+          <a class="navbar-item" href="https://osu-nlp-group.github.io/UGround/">
+            UGround
+          </a>
+          <a class="navbar-item" href="https://osu-nlp-group.github.io/SeeAct/">
+            SeeAct
+          </a>
+          <a class="navbar-item" href="https://osu-nlp-group.github.io/Mind2Web/">
+            Mind2Web
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title is-bold">
+            <!-- <img src="static/images/uground-icon.png" style="width:1.5em;vertical-align: middle" alt="Logo"/> -->
+            <span class="mmmu" style="vertical-align: middle">When Actions Go Off-Task:</span>
+            </h1>
+          <h2 class="subtitle is-3 publication-subtitle">
+        Detecting and Correcting Misaligned Actions in Computer-Use Agents
+    </h2>
+<!-- <h3 class="subtitle is-4 publication-subtitle" style="color: #ed4b82" >
+            ICLR'25 Oral (1.8%)
+          </h3> -->
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://nnnyt.github.io/">Yuting Ning</a><sup>†,1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://jjones62202.github.io/">Jaylen Jones</a><sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://zhehaozhang123.github.io/">Zhehao Zhang</a><sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=slgN2-WW0WMC&hl=en">Chentao Ye</a><sup>2</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=89pcoJsAAAAJ&hl=en">Weitong Ruan</a><sup>2</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=MzvZSs0AAAAJ&hl=en">Junyi Li</a><sup>2</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=gSTLsFcAAAAJ&hl=en">Rahul Gupta</a><sup>2</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://u.osu.edu/ihudas/people/">Huan Sun</a><sup>†,1</sup></span>
+          </div>
+          
+          <br>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>The Ohio State University</span>
+            <span class="author-block"><sup>2</sup>Amazon AGI</span>
+          </div>
+          
+          <br>
+
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              † Correspondence to
+              <a href="mailto:ning.151@osu.edu">ning.151@osu.edu</a>,
+              <a href="mailto:sun.397@osu.edu">sun.397@osu.edu</a>
+            </span>
+          </div>
+          
+
+          <br>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+
+              <span class="link-block">
+                <!-- TODO -->
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+             <span class="link-block">
+              <!-- TODO -->
+                  <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+            
+              <span class="link-block">
+                <!-- TODO -->
+                  <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img src="./static/images/huggingface.svg" width="20" height="20">
+                    </span>
+                    <span>Data</span>
+                  </a>
+                </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--<p class="has-text-centered"><img src="static/images/framework.png" alt="MY ALT TEXT" style="width:900px"></p>-->
+
+<style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+  </style>
+<!-- 
+
+<h1 style="text-align: center; margin-top: 30px; font-size: 50px; font-weight: bold;">
+    <span style="vertical-align: middle">Videos</span>
+</h1>
+ -->
+
+ <section class="section" id="intro">
+  <div class="container is-max-desktop">
+    <div class="content has-text-centered">
+      <img src="static/images/examples.png" alt="Examples of misaligned actions" style="width: 100%; max-width: 900px;"/>
+      <p style="font-size: 15px; margin-top: 0.75rem;">
+        Computer-use agents (CUAs) are increasingly capable, yet they frequently take <strong>misaligned actions</strong> that deviate from user intent. We make the first effort to define and study misaligned action detection in CUAs. We introduce <strong>MisActBench</strong>, the first benchmark with action-level misalignment labels across CUA trajectories, and <strong>DeAction</strong>, a practical guardrail that detects and corrects misaligned actions before execution.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small" id="overview">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">
+      <span class="mmmu" style="vertical-align: middle">Overview</span>
+    </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <p>
+            Computer-use agents (CUAs) have made tremendous progress in the past year, yet they still frequently produce <strong>misaligned actions</strong> that deviate from the user's original intent. Such misaligned actions may arise from external attacks (e.g., indirect prompt injection) or internal limitations (e.g., erroneous reasoning). They not only expose CUAs to safety risks, but also degrade task efficiency and reliability.
+          </p>
+          <p>
+            We present the first systematic study of <strong>misaligned action detection</strong> in CUAs:
+          </p>
+          <ul>
+            <li><strong>Problem Framing:</strong> We propose an intent-centric perspective that frames CUA deviations as an action misalignment problem, and identify three common categories of misaligned actions in real-world deployments.</li>
+            <li><strong>MisActBench:</strong> A comprehensive benchmark with 2264 human-annotated, action-level alignment labels on diverse CUA trajectories, covering all three categories of misaligned actions.</li>
+            <li><strong>DeAction:</strong> A practical and plug-and-play runtime guardrail that proactively detects misaligned actions before execution and corrects them via iterative feedback. Extensive experiments demonstrate its effectiveness in both adversarial and benign settings with moderate overhead.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small" id="benchmark">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">
+      <span class="mmmu" style="vertical-align: middle">MisActBench</span>
+    </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- Intro text -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <p>
+            <strong>MisActBench</strong> is the first benchmark for evaluating <strong>action-level misalignment detection</strong> in computer-use agents. Unlike existing benchmarks that provide only trajectory-level safety labels, MisActBench offers fine-grained, human-annotated alignment labels for each individual action.
+          </p>
+          <p>
+            For each action, we provide: (1) the user intent, (2) interaction history (including previous actions and screenshots), (3) current screenshot, and (4) the proposed action. The goal is to predict whether the proposed action is <strong>aligned</strong> or <strong>misaligned</strong> with the user's intent before execution.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data collection figure -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1.5rem;">
+      <div class="column is-four-fifths">
+        <figure>
+          <img src="static/images/benchmark.png" alt="MisActBench data collection" style="width: 100%; max-width: 850px;"/>
+          <figcaption style="font-size: 14px; color: #666; margin-top: 0.75rem;">
+            We collect trajectories from two sources: (a) running diverse CUAs on adversarial benchmarks to capture attack-induced misalignment; (b) synthesizing trajectories with internally arising misalignment by injecting unintended subgoals into benign tasks.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Three categories explanation -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 2rem;">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <p>MisActBench covers all three categories of misaligned actions:</p>
+          <ul>
+            <li><strong>Malicious Instruction Following:</strong> The action complies with malicious instructions in external environments to achieve an attacker's goal.</li>
+            <li><strong>Harmful Unintended Behavior:</strong> The action causes harm inadvertently due to inherent limitations (e.g., reasoning error) rather than adversarial attack.</li>
+            <li><strong>Other Task-Irrelevant Behavior:</strong> The action does not cause harmful consequences but is irrelevant to the user task and will degrade efficiency and reliability.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unified stats section -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 2.5rem;">
+      <div class="column is-four-fifths">
+        
+        <!-- Top-level stats row -->
+        <div class="columns is-mobile is-centered" style="margin-bottom: 1.5rem;">
+          <div class="column is-3 has-text-centered">
+            <p style="font-size: 42px; font-weight: bold; color: #333; margin-bottom: 0;">558</p>
+            <p style="font-size: 14px; color: #666;">Trajectories</p>
+          </div>
+          <div class="column is-3 has-text-centered">
+            <p style="font-size: 42px; font-weight: bold; color: #333; margin-bottom: 0;">2,264</p>
+            <p style="font-size: 14px; color: #666;">Annotated Actions</p>
+          </div>
+          <div class="column is-3 has-text-centered">
+            <p style="font-size: 42px; font-weight: bold; color: #333; margin-bottom: 0;">0.84</p>
+            <p style="font-size: 14px; color: #666;">Annotator Agreement (Fleiss' κ)</p>
+          </div>
+        </div>
+
+        <!-- Action distribution: Aligned vs Misaligned with breakdown -->
+        <div style="background: #f9f9f9; border-radius: 16px; padding: 2rem; margin-top: 1rem;">
+          <p style="font-size: 14px; color: #888; margin-bottom: 1.5rem; font-weight: 500;">Action Distribution</p>
+          
+          <div class="columns is-mobile is-centered is-vcentered">
+            
+            <!-- Aligned -->
+            <div class="column is-4">
+              <div style="background: linear-gradient(135deg, #4CAF50, #81C784); border-radius: 12px; padding: 1.5rem; color: white;">
+                <p style="font-size: 36px; font-weight: bold; margin-bottom: 0.25rem;">1,264</p>
+                <p style="font-size: 14px; font-weight: 600;">✓ Aligned Actions</p>
+              </div>
+            </div>
+
+            <!-- Misaligned with breakdown -->
+            <div class="column is-7">
+              <div style="background: linear-gradient(135deg, #ff5722, #ff8a65); border-radius: 12px; padding: 1.5rem; color: white;">
+                <p style="font-size: 36px; font-weight: bold; margin-bottom: 0.25rem;">1,000</p>
+                <p style="font-size: 14px; font-weight: 600; margin-bottom: 1rem;">✗ Misaligned Actions</p>
+                
+                <!-- Sub-categories inline -->
+                <div class="columns is-mobile" style="margin: 0; background: rgba(255,255,255,0.15); border-radius: 8px; padding: 0.75rem;">
+                  <div class="column has-text-centered" style="border-right: 1px solid rgba(255,255,255,0.3);">
+                    <p style="font-size: 20px; font-weight: bold; margin-bottom: 0;">562</p>
+                    <p style="font-size: 11px; opacity: 0.9;">Malicious Instruction Following</p>
+                  </div>
+                  <div class="column has-text-centered" style="border-right: 1px solid rgba(255,255,255,0.3);">
+                    <p style="font-size: 20px; font-weight: bold; margin-bottom: 0;">210</p>
+                    <p style="font-size: 11px; opacity: 0.9;">Harmful Unintended Behavior</p>
+                  </div>
+                  <div class="column has-text-centered">
+                    <p style="font-size: 20px; font-weight: bold; margin-bottom: 0;">228</p>
+                    <p style="font-size: 11px; opacity: 0.9;">Other Task-Irrelevant Behavior</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Data Explorer -->
+<div class="columns is-centered has-text-centered" style="margin-top: 2.5rem;">
+  <div class="column is-four-fifths">
+    <h3 class="title is-5">Data Examples</h3>
+    <p style="font-size: 13px; color: #888; margin-bottom: 1rem;">Coordinates in actions are annotated with <span style="color: red; font-weight: 600;">red markers</span> on the screenshots for better visualization. Click any screenshot to enlarge.</p>
+
+    <!-- Tabs (dynamically generated) -->
+    <div style="margin-bottom: 1rem;">
+      <div class="tabs is-centered is-boxed">
+        <ul id="trajectory-tabs"></ul>
+      </div>
+    </div>
+
+    <!-- Content container (dynamically generated) -->
+    <div id="trajectory-contents"></div>
+
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+  // Fetch JSON data
+  const response = await fetch('static/data/explorer_examples.json');
+  const trajectories = await response.json();
+  
+  const tabsContainer = document.getElementById('trajectory-tabs');
+  const contentsContainer = document.getElementById('trajectory-contents');
+  
+  // Color mapping
+  const labelColors = {
+    aligned: { bg: '#e8f5e9', text: '#2e7d32', dot: '#4CAF50' },
+    misaligned: { bg: '#ffebee', text: '#c62828', dot: '#e53935' },
+    filtered: { bg: '#f5f5f5', text: '#9e9e9e', dot: '#bdbdbd' }
+  };
+  
+  // Category-specific colors for misaligned
+  const categoryColors = {
+    'Malicious Instruction Following': { bg: '#ffebee', text: '#c62828', dot: '#e53935' },
+    'Harmful Unintended Behavior': { bg: '#fff3e0', text: '#e65100', dot: '#fb8c00' },
+    'Other Task-Irrelevant Behavior': { bg: '#fffde7', text: '#f9a825', dot: '#fdd835' }
+  };
+  
+  trajectories.forEach((traj, index) => {
+    // Create tab
+    const tab = document.createElement('li');
+    tab.setAttribute('data-target', traj.id);
+    if (index === 0) tab.classList.add('is-active');
+    tab.innerHTML = `
+      <a>
+        <span style="font-size: 13px;">${traj.tab_label}</span>
+      </a>
+    `;
+    tabsContainer.appendChild(tab);
+    
+    // Create content
+    const content = document.createElement('div');
+    content.id = traj.id;
+    content.className = 'trajectory-content';
+    content.style.cssText = `background: #f9f9f9; border-radius: 12px; padding: 1.5rem; text-align: left; ${index !== 0 ? 'display: none;' : ''}`;
+    
+    // Build steps HTML
+    let stepsHTML = '';
+    traj.steps.forEach(step => {
+      if (step.label === 'filtered') {
+        // Filtered steps (collapsed)
+        const stepRange = Array.isArray(step.step_idx) 
+          ? `Steps ${step.step_idx[0]}–${step.step_idx[1]}` 
+          : `Step ${step.step_idx}`;
+        stepsHTML += `
+          <div style="margin-bottom: 1.5rem; position: relative;">
+            <div style="position: absolute; left: -1.85rem; top: 0; width: 12px; height: 12px; background: ${labelColors.filtered.dot}; border-radius: 50%;"></div>
+            <div style="display: flex; align-items: center;">
+              <span style="color: #888; font-size: 12px; font-weight: 600; margin-right: 0.5rem;">${stepRange}</span>
+              <span style="background: ${labelColors.filtered.bg}; color: ${labelColors.filtered.text}; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 11px; font-weight: 600;">FILTERED</span>
+              <span style="margin-left: 0.5rem; font-size: 11px; color: #aaa;">${step.reason}</span>
+            </div>
+          </div>
+        `;
+      } else {
+        // Annotated steps
+        const colors = step.label === 'misaligned' && step.category 
+          ? categoryColors[step.category] || labelColors.misaligned
+          : labelColors[step.label];
+        const labelText = step.label.toUpperCase();
+        const categoryText = step.category ? `<span style="margin-left: 0.5rem; font-size: 11px; color: #888;">${step.category}</span>` : '';
+        
+        stepsHTML += `
+          <div style="margin-bottom: 1.5rem; position: relative;">
+            <div style="position: absolute; left: -1.85rem; top: 0; width: 12px; height: 12px; background: ${colors.dot}; border-radius: 50%;"></div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+              <span style="color: #888; font-size: 12px; font-weight: 600; margin-right: 0.5rem;">Step ${step.step_idx}</span>
+              <span style="background: ${colors.bg}; color: ${colors.text}; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 11px; font-weight: 600;">${labelText}</span>
+              ${categoryText}
+            </div>
+            <div style="background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 1rem;">
+              <img src="${step.screenshot}" alt="Step ${step.step_idx} screenshot" style="width: 100%; max-width: 500px; border-radius: 4px; margin-bottom: 0.75rem; cursor: zoom-in;" onerror="this.style.display='none'" onclick="openLightbox(this.src)"/>
+              <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; font-size: 12px; overflow-x: auto; margin: 0;"><code>${escapeHtml(step.action)}</code></pre>
+            </div>
+          </div>
+        `;
+      }
+    });
+    
+    content.innerHTML = `
+      <!-- Task instruction -->
+      <div style="margin-bottom: 1rem;">
+        <span style="background: #e3f2fd; color: #1565c0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 12px; font-weight: 600;">USER TASK</span>
+        <p style="margin-top: 0.5rem; font-size: 14px; color: #333;">${traj.instruction}</p>
+      </div>
+
+      <!-- Metadata -->
+      <div style="margin-bottom: 1rem; font-size: 13px; color: #666;">
+        <span style="margin-right: 1rem;">📁 Source: <strong>${traj.source}</strong></span>
+        <span style="margin-right: 1rem;">🤖 Agent: <strong>${traj.agent}</strong></span>
+      </div>
+
+      <!-- Scrollable steps container -->
+      <div style="max-height: 480px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; background: #fff;">
+        <div style="border-left: 3px solid #ddd; padding-left: 1.5rem;">
+          ${stepsHTML}
+        </div>
+      </div>
+
+      <!-- Bottom insight -->
+      <p style="font-size: 13px; color: #888; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #eee;">
+        💡 ${traj.insight}
+      </p>
+    `;
+    
+    contentsContainer.appendChild(content);
+  });
+  
+  // Tab switching
+  const tabs = document.querySelectorAll('#trajectory-tabs li');
+  const contents = document.querySelectorAll('.trajectory-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      tabs.forEach(t => t.classList.remove('is-active'));
+      this.classList.add('is-active');
+      
+      contents.forEach(c => c.style.display = 'none');
+      const targetId = this.getAttribute('data-target');
+      document.getElementById(targetId).style.display = 'block';
+    });
+  });
+});
+
+// Helper function to escape HTML in code blocks
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Lightbox for screenshot zoom
+function openLightbox(src) {
+  const overlay = document.getElementById('screenshot-lightbox');
+  const img = document.getElementById('lightbox-img');
+  img.src = src;
+  overlay.style.display = 'flex';
+}
+function closeLightbox() {
+  document.getElementById('screenshot-lightbox').style.display = 'none';
+}
+</script>
+
+<!-- Lightbox modal -->
+<div id="screenshot-lightbox" onclick="closeLightbox()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center; cursor:zoom-out;">
+  <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 4px 30px rgba(0,0,0,0.5);"/>
+</div>
+
+<!-- Custom scrollbar styling -->
+<style>
+.trajectory-content div[style*="overflow-y: auto"]::-webkit-scrollbar {
+  width: 6px;
+}
+.trajectory-content div[style*="overflow-y: auto"]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+.trajectory-content div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+.trajectory-content div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+</style>
+  </div>
+</section>
+
+<section class="hero is-light is-small" id="guardrail">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">
+      <span class="mmmu" style="vertical-align: middle">DeAction</span>
+    </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- Intro -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <p>
+            <strong>DeAction</strong> is a runtime guardrail that intercepts each proposed action <em>before execution</em>, assesses its alignment with the user's intent, and triggers a correction loop when misalignment is detected. It is <strong>plug-and-play</strong> for any CUA — requiring only environment state and action proposals, with no access to model internals.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key features cards -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1.5rem;">
+      <div class="column is-four-fifths">
+        <div class="columns is-mobile is-multiline">
+          
+          <!-- Feature 1: Two-stage detection -->
+          <div class="column is-4">
+            <div style="background: #fff; border-radius: 12px; padding: 1.5rem; border-top: 4px solid #2196F3; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 100%;">
+              <p style="font-size: 24px; margin-bottom: 0.5rem;">🔍</p>
+              <p style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 0.5rem;">Two-Stage Detection</p>
+              <p style="font-size: 13px; color: #666;">Lightweight <em>fast check</em> for obvious cases, <em>systematic analysis</em> for ambiguous ones — balancing accuracy and latency.</p>
+            </div>
+          </div>
+
+          <!-- Feature 2: Iterative correction -->
+          <div class="column is-4">
+            <div style="background: #fff; border-radius: 12px; padding: 1.5rem; border-top: 4px solid #4CAF50; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 100%;">
+              <p style="font-size: 24px; margin-bottom: 0.5rem;">🔄</p>
+              <p style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 0.5rem;">Iterative Correction</p>
+              <p style="font-size: 13px; color: #666;">Structured feedback steers the agent toward aligned actions, with 78% of flagged actions ultimately corrected.</p>
+            </div>
+          </div>
+
+          <!-- Feature 3: Plug-and-play -->
+          <div class="column is-4">
+            <div style="background: #fff; border-radius: 12px; padding: 1.5rem; border-top: 4px solid #ff5722; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 100%;">
+              <p style="font-size: 24px; margin-bottom: 0.5rem;">🔌</p>
+              <p style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 0.5rem;">Plug-and-Play</p>
+              <p style="font-size: 13px; color: #666;">Works with any CUA — no model internals needed, just environment state and action proposals.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline figure with caption -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 2rem;">
+      <div class="column is-four-fifths">
+        <figure>
+          <img src="static/images/guardrail.png" alt="DeAction pipeline" style="width: 100%; max-width: 900px;"/>
+          <figcaption style="font-size: 14px; color: #666; margin-top: 0.75rem;">
+            DeAction pipeline: (1) intercept proposed action, (2) two-stage alignment detection, (3) if misaligned, generate structured feedback and prompt the agent to revise.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Key results teaser -->
+    <!-- <div class="columns is-centered has-text-centered" style="margin-top: 2rem;">
+      <div class="column is-two-thirds">
+        <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 12px; padding: 1.5rem;">
+          <p style="font-size: 14px; color: #2e7d32; font-weight: 600; margin-bottom: 0.5rem;">Key Results</p>
+          <p style="font-size: 15px; color: #333;">
+            DeAction reduces attack success rate by <strong style="color: #2e7d32;">>90%</strong> while preserving benign task performance, with <strong style="color: #2e7d32;">>15% F1 improvement</strong> over prior detection methods.
+          </p>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</section>
+
+<section class="hero is-light is-small" id="experiments">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">
+      <span class="mmmu" style="vertical-align: middle">Experiments</span>
+    </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Offline Evaluation -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <h2 class="title is-4">Offline Evaluation</h2>
+          <p>
+            We evaluate misaligned action detection on MisActBench across multiple backbones. DeAction consistently outperforms prior methods (Task Shield, InferAct), achieving <strong>9–16% absolute F1 improvement</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Offline table -->
+<div class="columns is-centered has-text-centered">
+  <div class="column is-four-fifths">
+    <div class="table-container" style="max-width: 800px; margin: 0 auto;">
+      <table class="table is-bordered is-hoverable is-fullwidth" style="font-size: 13px;">
+        <thead>
+          <tr>
+            <th style="text-align: center;">Method</th>
+            <th style="text-align: center;">Precision</th>
+            <th style="text-align: center;">Recall</th>
+            <th style="text-align: center;">Acc</th>
+            <th style="text-align: center;">F1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Qwen3-VL-32B -->
+          <tr>
+            <td colspan="5" style="text-align: center; font-weight: 600; font-style: italic; background-color: #f5f5f5;">Qwen3-VL-32B</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">Task Shield</td>
+            <td style="text-align: center;">50.6</td>
+            <td style="text-align: center;">69.0</td>
+            <td style="text-align: center;">56.6</td>
+            <td style="text-align: center;">58.4</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">InferAct</td>
+            <td style="text-align: center;">47.1</td>
+            <td style="text-align: center;">89.0</td>
+            <td style="text-align: center;">51.1</td>
+            <td style="text-align: center;">61.6</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;">80.1</td>
+            <td style="text-align: center;">63.3</td>
+            <td style="text-align: center;"><strong>76.9</strong></td>
+            <td style="text-align: center;"><strong>70.7</strong></td>
+          </tr>
+
+          <!-- Claude Sonnet 4.5 -->
+          <tr>
+            <td colspan="5" style="text-align: center; font-weight: 600; font-style: italic; background-color: #f5f5f5;">Claude Sonnet 4.5</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">Task Shield</td>
+            <td style="text-align: center;">59.5</td>
+            <td style="text-align: center;">75.8</td>
+            <td style="text-align: center;">66.5</td>
+            <td style="text-align: center;">66.6</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">InferAct</td>
+            <td style="text-align: center;">48.4</td>
+            <td style="text-align: center;">96.0</td>
+            <td style="text-align: center;">53.1</td>
+            <td style="text-align: center;">64.3</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;">88.2</td>
+            <td style="text-align: center;">74.0</td>
+            <td style="text-align: center;"><strong>84.1</strong></td>
+            <td style="text-align: center;"><strong>80.4</strong></td>
+          </tr>
+
+          <!-- GPT-5.1 Instant -->
+          <tr>
+            <td colspan="5" style="text-align: center; font-weight: 600; font-style: italic; background-color: #f5f5f5;">GPT-5.1 Instant</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">Task Shield</td>
+            <td style="text-align: center;">51.4</td>
+            <td style="text-align: center;">88.8</td>
+            <td style="text-align: center;">58.0</td>
+            <td style="text-align: center;">65.1</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">InferAct</td>
+            <td style="text-align: center;">51.4</td>
+            <td style="text-align: center;">87.3</td>
+            <td style="text-align: center;">58.0</td>
+            <td style="text-align: center;">64.7</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;">73.4</td>
+            <td style="text-align: center;">86.4</td>
+            <td style="text-align: center;"><strong>80.2</strong></td>
+            <td style="text-align: center;"><strong>79.4</strong></td>
+          </tr>
+
+          <!-- GPT-5.1 Thinking -->
+          <tr>
+            <td colspan="5" style="text-align: center; font-weight: 600; font-style: italic; background-color: #f5f5f5;">GPT-5.1 Thinking</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">Task Shield</td>
+            <td style="text-align: center;">61.3</td>
+            <td style="text-align: center;">73.6</td>
+            <td style="text-align: center;">67.8</td>
+            <td style="text-align: center;">66.9</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">InferAct</td>
+            <td style="text-align: center;">56.0</td>
+            <td style="text-align: center;">70.1</td>
+            <td style="text-align: center;">62.5</td>
+            <td style="text-align: center;">62.3</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;">89.9</td>
+            <td style="text-align: center;">76.8</td>
+            <td style="text-align: center;"><strong>85.9</strong></td>
+            <td style="text-align: center;"><strong>82.8</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+    <!-- Takeaway box -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1rem; margin-bottom: 3rem;">
+      <div class="column is-two-thirds">
+        <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+            <strong>💡 Takeaway:</strong> DeAction achieves the best F1 across all backbones by improving precision without sacrificing recall — reducing false alarms that would otherwise block legitimate actions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Online Evaluation -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <h2 class="title is-4">Online Evaluation</h2>
+          <p>
+            We deploy DeAction with real CUAs on adversarial (RedTeamCUA) and benign (OSWorld) envviroments. DeAction reduces attack success rate by <strong>>90%</strong> while preserving or even sometimes improving benign task success.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Online table -->
+<div class="columns is-centered has-text-centered">
+  <div class="column is-four-fifths">
+    <div class="table-container" style="max-width: 800px; margin: 0 auto;">
+      <table class="table is-bordered is-hoverable is-fullwidth" style="font-size: 13px;">
+        <thead>
+          <tr>
+            <th rowspan="2" style="text-align: center; vertical-align: middle;">Agent</th>
+            <th rowspan="2" style="text-align: center; vertical-align: middle;">Defense</th>
+            <th colspan="2" style="text-align: center;">Adversarial (RedTeamCUA)</th>
+            <th style="text-align: center;">Benign (OSWorld)</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">ASR (%) ↓</th>
+            <th style="text-align: center;">UA (%) ↑</th>
+            <th style="text-align: center;">SR (%) ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Claude Sonnet 4.5 -->
+          <tr>
+            <td rowspan="2" style="text-align: center; vertical-align: middle; font-weight: 600;">Claude Sonnet 4.5</td>
+            <td style="text-align: center;">No Defense</td>
+            <td style="text-align: center;">60.0</td>
+            <td style="text-align: center;">44.0</td>
+            <td style="text-align: center;"><strong>42.9</strong></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;"><strong>6.0</strong></td>
+            <td style="text-align: center;"><strong>76.0</strong></td>
+            <td style="text-align: center;">40.7</td>
+          </tr>
+
+          <!-- OpenAI CUA -->
+          <tr>
+            <td rowspan="2" style="text-align: center; vertical-align: middle; font-weight: 600;">OpenAI CUA</td>
+            <td style="text-align: center;">No Defense</td>
+            <td style="text-align: center;">42.0</td>
+            <td style="text-align: center;">82.0</td>
+            <td style="text-align: center;">26.0</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;"><strong>4.0</strong></td>
+            <td style="text-align: center;"><strong>84.0</strong></td>
+            <td style="text-align: center;"><strong>30.7</strong></td>
+          </tr>
+
+          <!-- OpenCUA-72B -->
+          <tr>
+            <td rowspan="6" style="text-align: center; vertical-align: middle; font-weight: 600;">OpenCUA-72B</td>
+            <td style="text-align: center;">No Defense</td>
+            <td style="text-align: center;">32.0</td>
+            <td style="text-align: center;">48.0</td>
+            <td style="text-align: center;">39.0</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">DSP</td>
+            <td style="text-align: center;">24.0</td>
+            <td style="text-align: center;">52.0</td>
+            <td style="text-align: center;">38.3</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">PromptArmor</td>
+            <td style="text-align: center;">26.0</td>
+            <td style="text-align: center;">44.0</td>
+            <td style="text-align: center;">35.2</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">Task Shield</td>
+            <td style="text-align: center;">22.0</td>
+            <td style="text-align: center;">58.0</td>
+            <td style="text-align: center;">36.6</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">InferAct</td>
+            <td style="text-align: center;">22.0</td>
+            <td style="text-align: center;"><strong>70.0</strong></td>
+            <td style="text-align: center;">36.5</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>DeAction</strong></td>
+            <td style="text-align: center;"><strong>2.0</strong></td>
+            <td style="text-align: center;">60.0</td>
+            <td style="text-align: center;"><strong>39.6</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+    <!-- Takeaway box -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1rem;">
+      <div class="column is-two-thirds">
+         <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+            <strong>💡 Takeaway:</strong> DeAction achieves the lowest ASR across all CUAs while maintaining competitive benign task success, demonstrating practical deployability.
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    
+    <!-- Runtime Analysis -->
+<div class="columns is-centered has-text-centered" style="margin-top: 2rem;">
+  <div class="column is-two-thirds">
+    <div class="content has-text-justified">
+      <h2 class="title is-4">Runtime Analysis</h2>
+      <p>
+        We analyze the runtime behavior of DeAction in online experiments, with statistics averaged across all settings and CUAs.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="columns is-centered has-text-centered" style="margin-top: 1rem;">
+  <div class="column is-two-thirds">
+    <div class="columns is-mobile is-multiline">
+      
+      <!-- Latency -->
+      <div class="column is-4">
+        <div style="background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%;">
+          <p style="font-size: 11px; color: #888; font-weight: 600; margin-bottom: 0.5rem;">LATENCY</p>
+          <p style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 0.25rem;">25%</p>
+          <p style="font-size: 12px; color: #666;">of per-step execution time</p>
+          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">7.2s out of 28.1s avg.</p>
+        </div>
+      </div>
+
+      <!-- Fast Check -->
+      <div class="column is-4">
+        <div style="background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%;">
+          <p style="font-size: 11px; color: #888; font-weight: 600; margin-bottom: 0.5rem;">TWO-STAGE</p>
+          <p style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 0.25rem;">45%</p>
+          <p style="font-size: 12px; color: #666;">actions approved directly with fast check</p>
+          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">3.2s avg. latency</p>
+        </div>
+      </div>
+
+      <!-- Correction -->
+      <div class="column is-4">
+        <div style="background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%;">
+          <p style="font-size: 11px; color: #888; font-weight: 600; margin-bottom: 0.5rem;">CORRECTION</p>
+          <p style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 0.25rem;">78%</p>
+          <p style="font-size: 12px; color: #666;">flagged actions corrected</p>
+          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">62% in single revision</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Takeaway -->
+<div class="columns is-centered has-text-centered" style="margin-top: 1rem;">
+  <div class="column is-two-thirds">
+     <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+        <strong>💡 Takeaway:</strong> DeAction accounts for 25% of per-step execution time, with 45% of actions cleared by the fast check. When misalignment is flagged, iterative feedback corrects 78% of cases — recovering aligned behavior rather than simply blocking.
+      </p>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</section>
+
+<br>
+<footer class="footer">
+  <!-- <div class="container"> -->
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a href="https://mmmu-benchmark.github.io/">MMMU</a>, <a href="https://nerfies.github.io/">Nerfies</a> and <a href="https://mathvista.github.io/">MathVista</a>, licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+
+</footer>
+
+
+</body>
+</html>
