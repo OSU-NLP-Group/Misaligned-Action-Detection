@@ -828,6 +828,17 @@ function closeLightbox() {
       </div>
     </div>
 
+    <!-- Takeaway box -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1rem; margin-bottom: 1rem;">
+      <div class="column is-two-thirds">
+        <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+            <strong>💡 Takeaway:</strong> DeAction achieves the best F1 across all backbones by improving precision without sacrificing recall — reducing false alarms that would otherwise block legitimate actions.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Offline table -->
 <div class="columns is-centered has-text-centered">
   <div class="column is-four-fifths">
@@ -952,17 +963,6 @@ function closeLightbox() {
   </div>
 </div>
 
-    <!-- Takeaway box -->
-    <div class="columns is-centered has-text-centered" style="margin-top: 1rem; margin-bottom: 3rem;">
-      <div class="column is-two-thirds">
-        <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
-          <p style="font-size: 13px; color: #555; margin: 0;">
-            <strong>💡 Takeaway:</strong> DeAction achieves the best F1 across all backbones by improving precision without sacrificing recall — reducing false alarms that would otherwise block legitimate actions.
-          </p>
-        </div>
-      </div>
-    </div>
-
     <!-- Online Evaluation -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-two-thirds">
@@ -970,6 +970,17 @@ function closeLightbox() {
           <h2 class="title is-4">Online Evaluation</h2>
           <p>
             We deploy DeAction with real CUAs on adversarial (RedTeamCUA) and benign (OSWorld) envviroments. DeAction reduces attack success rate by <strong>>90%</strong> while preserving or even sometimes improving benign task success.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Takeaway box -->
+    <div class="columns is-centered has-text-centered" style="margin-top: 1rem; margin-bottom: 1rem;">
+      <div class="column is-two-thirds">
+         <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+            <strong>💡 Takeaway:</strong> DeAction achieves the lowest ASR across all CUAs while maintaining competitive benign task success, demonstrating practical deployability.
           </p>
         </div>
       </div>
@@ -988,9 +999,9 @@ function closeLightbox() {
             <th style="text-align: center;">Benign (OSWorld)</th>
           </tr>
           <tr>
-            <th style="text-align: center;">ASR (%) ↓</th>
-            <th style="text-align: center;">UA (%) ↑</th>
-            <th style="text-align: center;">SR (%) ↑</th>
+            <th style="text-align: center;">ASR (%) ↓<br><span style="font-weight: normal; font-size: 11px;">Attack Success Rate</span></th>
+            <th style="text-align: center;">UA (%) ↑<br><span style="font-weight: normal; font-size: 11px;">Utility under Attack</span></th>
+            <th style="text-align: center;">SR (%) ↑<br><span style="font-weight: normal; font-size: 11px;">Success Rate</span></th>
           </tr>
         </thead>
         <tbody>
@@ -1068,18 +1079,7 @@ function closeLightbox() {
   </div>
 </div>
 
-    <!-- Takeaway box -->
-    <div class="columns is-centered has-text-centered" style="margin-top: 1rem;">
-      <div class="column is-two-thirds">
-         <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
-          <p style="font-size: 13px; color: #555; margin: 0;">
-            <strong>💡 Takeaway:</strong> DeAction achieves the lowest ASR across all CUAs while maintaining competitive benign task success, demonstrating practical deployability.
-          </p>
-        </div>
-      </div>
-    </div>
-  
-    
+
     <!-- Runtime Analysis -->
 <div class="columns is-centered has-text-centered" style="margin-top: 2rem;">
   <div class="column is-two-thirds">
@@ -1087,6 +1087,17 @@ function closeLightbox() {
       <h2 class="title is-4">Runtime Analysis</h2>
       <p>
         We analyze the runtime behavior of DeAction in online experiments, with statistics averaged across all settings and CUAs.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Takeaway -->
+<div class="columns is-centered has-text-centered" style="margin-top: 1rem; margin-bottom: 1rem;">
+  <div class="column is-two-thirds">
+     <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
+          <p style="font-size: 13px; color: #555; margin: 0;">
+        <strong>💡 Takeaway:</strong> DeAction accounts for 25% of per-step execution time, with 45% of actions cleared by the fast check. When misalignment is flagged, iterative feedback corrects 78% of cases — recovering aligned behavior rather than simply blocking.
       </p>
     </div>
   </div>
@@ -1126,17 +1137,6 @@ function closeLightbox() {
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
-
-<!-- Takeaway -->
-<div class="columns is-centered has-text-centered" style="margin-top: 1rem;">
-  <div class="column is-two-thirds">
-     <div style="background: #e3f2fd; border-radius: 8px; padding: 1rem; text-align: left;">
-          <p style="font-size: 13px; color: #555; margin: 0;">
-        <strong>💡 Takeaway:</strong> DeAction accounts for 25% of per-step execution time, with 45% of actions cleared by the fast check. When misalignment is flagged, iterative feedback corrects 78% of cases — recovering aligned behavior rather than simply blocking.
-      </p>
     </div>
   </div>
 </div>
