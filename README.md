@@ -4,7 +4,7 @@ Code and data for the paper "When Actions Go Off-Task: Detecting and Correcting 
 
 <p align="center">
 [<a href="https://osu-nlp-group.github.io/Misaligned-Action-Detection">Website</a>] •
-[<a href="">Paper</a>] •
+[<a href="https://arxiv.org/abs/2602.08995">Paper</a>] •
 [<a href="https://huggingface.co/datasets/osunlp/MisActBench">Data</a>]
 </p>
 
@@ -91,3 +91,17 @@ Common optional flags (see `DeAction/run.py` for full list):
 
 ## 📮 Contacts
 [Yuting Ning](mailto:ning.151@osu.edu), [Huan Sun](mailto:sun.397@osu.edu)
+
+## 📝 Citation Information
+If you find this work useful, please consider citing our paper:
+```
+@misc{ning2026actionsofftaskdetectingcorrecting,
+      title={When Actions Go Off-Task: Detecting and Correcting Misaligned Actions in Computer-Use Agents}, 
+      author={Yuting Ning and Jaylen Jones and Zhehao Zhang and Chentao Ye and Weitong Ruan and Junyi Li and Rahul Gupta and Huan Sun},
+      year={2026},
+      eprint={2602.08995},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2602.08995}, 
+}
+```
